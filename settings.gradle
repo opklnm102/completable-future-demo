@@ -1,0 +1,4 @@
+rootProject.name = 'completable-future-demo'
+
+include 'pure-java'
+include 'spring'
