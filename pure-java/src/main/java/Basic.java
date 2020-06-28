@@ -1,7 +1,6 @@
 import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class Basic {
@@ -36,9 +35,7 @@ public class Basic {
     // Runnable Functional Interface, parameter X, return X
     private void runAsync() throws Exception {
 
-        CompletableFuture.runAsync(() -> {
-            System.out.println(Thread.currentThread().getName() + " runAsync");
-        })
+        CompletableFuture.runAsync(() -> System.out.println(Thread.currentThread().getName() + " runAsync"))
                          .get();
     }
 
@@ -51,7 +48,7 @@ public class Basic {
         })
                                          .get();
 
-        System.out.println(Thread.currentThread().getName() + " supplyAsync");
+        System.out.println(Thread.currentThread().getName() + " supplyAsync, result : " + result);
     }
 
     // Consumer Functional Interface, parameter O, return X
@@ -72,11 +69,11 @@ public class Basic {
     private void thenApply() throws Exception {
 
         CompletableFuture.runAsync(() -> System.out.println(Thread.currentThread().getName() + " runAsync"))
-                         .thenApply((Function<Void, Object>) aVoid -> {
+                         .thenApply(aVoid -> {
                              System.out.println(Thread.currentThread().getName() + " thenApply");
                              return "ok2";
                          })
-                         .thenAccept(aVoid -> System.out.println(Thread.currentThread().getName() + " " + aVoid));
+                         .thenAccept(s -> System.out.println(Thread.currentThread().getName() + " " + s));
     }
 
     // 순차적으로 실행, Parallel X, 하나의 thread pool
@@ -110,7 +107,8 @@ public class Basic {
         CompletableFuture.supplyAsync(() -> {
             System.out.println(Thread.currentThread().getName() + " supplyAsync - 1");
             return "first";
-        }).thenCombine(secondCompletableFuture, (s1, s2) -> s1 + " and " + s2)
+        })
+                         .thenCombine(secondCompletableFuture, (s1, s2) -> s1 + " and " + s2)
                          .thenAccept(s -> System.out.println(Thread.currentThread().getName() + " complete " + s));
 
         try {
@@ -157,14 +155,14 @@ public class Basic {
     private void exceptionally() {
 
         CompletableFuture.runAsync(() -> System.out.println(Thread.currentThread().getName() + " runAsync"))
-                         .thenApply((Function<Void, Object>) aVoid -> {
+                         .thenApply(aVoid -> {
                              System.out.println(Thread.currentThread().getName() + " thenApply");
-                             return "ok2";
+                             throw new RuntimeException("error!");
                          })
                          .exceptionally(throwable -> {
                              System.out.println(Thread.currentThread().getName() + " " + throwable);
                              return "failed";
                          })
-                         .thenAccept(aVoid -> System.out.println(Thread.currentThread().getName() + " " + aVoid));
+                         .thenAccept(s -> System.out.println(Thread.currentThread().getName() + " " + s));
     }
 }
