@@ -28,6 +28,9 @@ public class Basic {
         System.out.println("\nallOf");
         allOf();
 
+        System.out.println("\nanyOf");
+        anyOf();
+
         System.out.println("\nexceptionally");
         exceptionally();
     }
@@ -146,6 +149,37 @@ public class Basic {
                                                   .collect(Collectors.toList());
 
                              System.out.println(Thread.currentThread().getName() + " allOf " + results.toString());
+                         });
+    }
+
+    private void anyOf() throws Exception {
+
+        var completableFuture1 = CompletableFuture.supplyAsync(() -> {
+            System.out.println(Thread.currentThread().getName() + " supplyAsync - 1");
+            return "1";
+        });
+
+        var completableFuture2 = CompletableFuture.supplyAsync(() -> {
+            System.out.println(Thread.currentThread().getName() + " supplyAsync - 2");
+            return "2";
+        });
+
+        var completableFuture3 = CompletableFuture.supplyAsync(() -> {
+            System.out.println(Thread.currentThread().getName() + " supplyAsync - 3");
+            return "3";
+        });
+
+        var futures = Arrays.asList(completableFuture1, completableFuture2, completableFuture3);
+
+        CompletableFuture.anyOf(completableFuture1, completableFuture2, completableFuture3)
+                         .thenAccept(s -> {
+                             System.out.println(Thread.currentThread().getName() + " anyOf " + s);
+
+                             var results = futures.stream()
+                                                  .map(CompletableFuture::join)
+                                                  .collect(Collectors.toList());
+
+                             System.out.println(Thread.currentThread().getName() + " anyOf " + results.toString());
                          });
     }
 
