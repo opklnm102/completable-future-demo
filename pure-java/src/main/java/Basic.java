@@ -7,29 +7,29 @@ public class Basic {
 
     public void doTask() throws Exception {
 
-        System.out.println("runAsync");
-        runAsync();
-
-        System.out.println("\nsupplyAsync");
-        supplyAsync();
-
-        System.out.println("\nthenAccept");
-        thenAccept();
-
-        System.out.println("\nthenApply");
-        thenApply();
-
-        System.out.println("\nthenCompose");
-        thenCompose();
-
-        System.out.println("\nthenCombine");
-        thenCombine();
-
-        System.out.println("\nallOf");
-        allOf();
-
-        System.out.println("\nanyOf");
-        anyOf();
+//        System.out.println("runAsync");
+//        runAsync();
+//
+//        System.out.println("\nsupplyAsync");
+//        supplyAsync();
+//
+//        System.out.println("\nthenAccept");
+//        thenAccept();
+//
+//        System.out.println("\nthenApply");
+//        thenApply();
+//
+//        System.out.println("\nthenCompose");
+//        thenCompose();
+//
+//        System.out.println("\nthenCombine");
+//        thenCombine();
+//
+//        System.out.println("\nallOf");
+//        allOf();
+//
+//        System.out.println("\nanyOf");
+//        anyOf();
 
         System.out.println("\nexceptionally");
         exceptionally();
